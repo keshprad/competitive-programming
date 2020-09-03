@@ -27,7 +27,3 @@ class Solution:
                     res += s[k]
                     k += spacing[i][1]
         return res
-
-
-s = Solution()
-print(s.convert("HeLloMyNameisfBo", 7))
