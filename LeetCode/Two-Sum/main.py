@@ -14,7 +14,7 @@ def main(nums, target):
 
 
 if __name__ == '__main__':
-    nums = input("Array of Integers: ").replace(",", " ").split()
+    nums = input("array of integers: ").replace(",", " ").split()
     nums = [int(num) for num in nums]
     target = int(input("target integer: "))
 
