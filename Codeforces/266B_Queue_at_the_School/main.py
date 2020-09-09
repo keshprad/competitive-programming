@@ -10,6 +10,7 @@ def main(queue, t):
             to_switch.append(curr_ind)
             curr_ind = queue.find("BG", curr_ind+1, len(queue))
 
+        # switch B and G
         for i in to_switch:
             queue = queue[:i] + "GB" + queue[i+2:]
     return queue
@@ -18,4 +19,6 @@ def main(queue, t):
 if __name__ == '__main__':
     nt = list(map(int, input().split()))
     n, t = nt[0], nt[1]
+    queue = input().strip()
     print(main(queue, t))
+
