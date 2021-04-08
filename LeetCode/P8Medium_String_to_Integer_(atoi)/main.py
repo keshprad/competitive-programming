@@ -1,5 +1,6 @@
 # Problem: https://leetcode.com/problems/string-to-integer-atoi/
 
+
 class Solution:
     def myAtoi(self, str: str) -> int:
         str = str.lstrip()
