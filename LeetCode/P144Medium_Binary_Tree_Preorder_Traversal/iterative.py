@@ -11,7 +11,7 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
+class IterativeSolution:
     def preorderTraversal(self, root: TreeNode) -> List[int]:
         stack, out = deque([root]), []
 
