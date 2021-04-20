@@ -16,9 +16,9 @@ class Solution:
         if not root:
             return 0
         elif not root.right or not root.left:
-            return 1 + max(self.minDepth(root.left), self.minDepth(root.right))
+            return 1 + max(self.minDepth_DFS(root.left), self.minDepth_DFS(root.right))
         else:
-            return 1 + min(self.minDepth(root.left), self.minDepth(root.right))
+            return 1 + min(self.minDepth_DFS(root.left), self.minDepth_DFS(root.right))
 
     # Breadth First Search
     def minDepth_BFS(self, root: TreeNode) -> int:

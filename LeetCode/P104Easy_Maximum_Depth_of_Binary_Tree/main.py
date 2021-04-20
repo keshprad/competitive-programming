@@ -14,7 +14,7 @@ class Solution:
     # Depth First Search
     def maxDepth_DFS(self, root: TreeNode) -> int:
         if root:
-            return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+            return 1 + max(self.maxDepth_DFS(root.left), self.maxDepth_DFS(root.right))
         else:
             return 0
 
