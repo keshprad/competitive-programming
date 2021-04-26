@@ -1,3 +1,3 @@
 # competitive-programming
 
-competitive programming & interview-type solutions
+competitive programming practice solutions
