@@ -1,4 +1,4 @@
-# Problem: https://leetcode.com/problems/longest-palindromic-substring/solution/
+# Problem: https://leetcode.com/problems/longest-palindromic-substring/
 
 
 class Solution:
