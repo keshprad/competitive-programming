@@ -2,8 +2,27 @@
 
 
 class Solution:
-    # 2nd solution with O(1) space and O(n) time:
+    # 3rd solution: Easily understandable - O(n) space and time:
     def numDecodings(self, s: str) -> int:
+        # Create dict with coeffs for one digit numbers
+        one = {str(i): 1 for i in range(1, 10)}
+        one.update({'*': 9, '0': 0})
+        # Create dict with coeffs for two digit numbers
+        two = {str(i): 1 for i in range(10, 27)}
+        two.update({f'*{i}': 1 + (i <= 6) for i in range(10)})
+        two.update({'1*': 9, '2*': 6, '**': 15})
+
+        # Initialize dp vals
+        dp = 1, one.get(s[:1], 0)
+        for i in range(1, len(s)):
+            # Iterate through, update curr based on last 2 values
+            # Use one digit coeff and two digit coeff to multiply and find new val
+            dp = dp[1], (one.get(s[i], 0) * dp[1] +
+                         two.get(s[i - 1:i + 1], 0) * dp[0]) % int(1e9 + 7)
+        return dp[-1]
+
+    # 2nd solution with O(1) space and O(n) time:
+    def numDecodings2(self, s: str) -> int:
         # Exit early if falsy
         if not s:
             return 0
