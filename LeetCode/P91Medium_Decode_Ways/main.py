@@ -12,15 +12,16 @@ class Solution:
         dp[0] = int(s[0] != '0')
 
         for i in range(1, len(s)):
-            # Either a 1 charater or 2 character string -> int is possible
-            first, second = int(s[i]), int(s[i - 1:i + 1])
-            # If 1 char between 1 & 9, take on all ways to decode from the previous spot
-            if 1 <= first <= 9:
+            # Either a 1 digit or 2 digit string -> int is possible
+            one_digit, two_digit = int(s[i]), int(s[i - 1:i + 1])
+            # If 1 digit between 1 & 9, take on all ways to decode from 1 index behind
+            if 1 <= one_digit <= 9:
+                # Extends from 1 indices behind
                 dp[i] += dp[i - 1]
-            # If 2 char between 10 & 26, take on all ways to decode from spot 2 indices behind
-            if 10 <= second <= 26:
-                dp[i] += dp[
-                    i -
-                    2] if i >= 2 else 1  # Prevent an index out of bounds exception
+            # If 2 digits between 10 & 26, take on all ways to decode from spot 2 indices behind
+            if 10 <= two_digit <= 26:
+                # Prevent an index out of bounds exception
+                # Extends from 2 indices behind
+                dp[i] += dp[i - 2] if i >= 2 else 1
 
         return dp[-1]
