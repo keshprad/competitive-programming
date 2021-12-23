@@ -134,3 +134,6 @@ pythonenv3.8/
 
 # VSCode
 .vscode/
+
+# private problems
+private/
