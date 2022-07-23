@@ -4,15 +4,15 @@ from typing import List
 
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        pref = {}
-        curr = 0
+        l = 0
+        sub_sum = 0
         min_len = float('inf')
 
         for i, num in enumerate(nums):
-            curr += num
-            pref[num] = i
-
-            if curr - target in pref:
-                min_len = min(min_len, i - pref[curr - target])
+            sub_sum += num
+            while sub_sum >= target:
+                min_len = min(min_len, i + 1 - l)
+                sub_sum -= nums[l]
+                l += 1
 
         return min_len if min_len != float('inf') else 0
