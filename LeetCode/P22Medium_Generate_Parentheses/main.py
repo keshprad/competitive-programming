@@ -1,18 +1,29 @@
-from collections import deque
-# Problem: https://leetcode.com/problems/simplify-path/
+from typing import List
+# Problem: https://leetcode.com/problems/generate-parentheses/
 
 
-class Solution(object):
-    def simplifyPath(self, path: str):
-        stack = deque()
-        for directory in path.split("/"):
-            if len(directory) == 0 or directory == ".":
-                # Skip empty directories
-                continue
-            elif directory != "..":
-                # Add valid directories
-                stack.append(directory)
-            elif stack:
-                # Pop last in if directory is ".." and stack exists
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        stack = []
+        res = []
+
+        def backtrack(nopen, nclose):
+            # valid if open == close == n
+            if nopen == nclose == n:
+                res.append("".join(stack))
+                return
+
+            # only add open parenthesis is open < n
+            if nopen < n:
+                stack.append("(")
+                backtrack(nopen+1, nclose)
                 stack.pop()
-        return "/" + "/".join(stack)
+
+            # only add closing parenthesis if close < open
+            if nclose < nopen:
+                stack.append(")")
+                backtrack(nopen, nclose+1)
+                stack.pop()
+
+        backtrack(0, 0)
+        return res
