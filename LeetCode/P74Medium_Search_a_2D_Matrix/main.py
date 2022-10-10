@@ -8,17 +8,9 @@ import bisect
 
 class Solution:
     def searchMatrix_1(self, matrix: List[List[int]], target: int) -> bool:
-        if len(matrix) == 0:
-            return False
-
-        shape = len(matrix)*len(matrix[0])
-        mat = np.reshape(matrix, newshape=shape)
-        pos = bisect.bisect_left(mat, target)
-
-        if pos == len(mat):
-            # target larger than last element in mat
-            return False
-        return mat[pos] == target
+        flat = np.array(matrix).flatten()
+        pos = bisect.bisect_left(flat, target)
+        return False if pos == len(flat) or flat[pos] != target else True
 
     def searchMatrix_2(self, matrix: List[List[int]], target: int) -> bool:
         if target < matrix[0][0]:
@@ -31,3 +23,24 @@ class Solution:
         if col == len(mat[row]):
             return False
         return mat[row, col] == target
+
+    def searchMatrix_3(self, matrix: List[List[int]], target: int) -> bool:
+        def binary_search(lst: List[int], target):
+            l = 0
+            r = len(lst) - 1
+
+            while l < r:
+                mid = l + (r - l) // 2
+
+                if lst[mid] > target:
+                    r = mid - 1
+                elif lst[mid] < target:
+                    l = mid + 1
+                else:
+                    return mid
+            return l if lst[l] == target else None
+
+        for row in matrix:
+            if binary_search(row, target) is not None:
+                return True
+        return False
