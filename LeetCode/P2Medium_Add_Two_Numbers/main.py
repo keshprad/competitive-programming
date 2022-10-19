@@ -1,3 +1,4 @@
+from typing import Optional
 # Problem: https://leetcode.com/problems/add-two-numbers/
 
 
@@ -9,7 +10,45 @@ class ListNode:
 
 
 class Solution:
-    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = prev = ListNode(0, l1)
+
+        carry = 0
+
+        while l1 and l2:
+            total = l1.val + l2.val + carry
+            carry = total // 10
+
+            l1.val = total % 10
+
+            prev = l1
+            l1 = l1.next
+            l2 = l2.next
+
+        while l1:
+            total = l1.val + carry
+            carry = total // 10
+            l1.val = total % 10
+
+            prev = prev.next
+            l1 = l1.next
+            if carry == 0:
+                l1 = None
+
+        while l2:
+            total = l2.val + carry
+            carry = total // 10
+            prev.next = ListNode(total % 10)
+
+            prev = prev.next
+            l2 = l2.next
+
+        if carry:
+            prev.next = ListNode(1)
+
+        return dummy.next
+
+    def addTwoNumbers2(self, l1: ListNode, l2: ListNode) -> ListNode:
         num1 = self.linked_list_to_int(head=l1)
         num2 = self.linked_list_to_int(head=l2)
 
