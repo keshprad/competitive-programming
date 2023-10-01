@@ -1,3 +1,5 @@
+# Problem: https://leetcode.com/problems/number-of-unique-good-subsequences/
+
 class Solution:
     def numberOfUniqueGoodSubsequences(self, binary: str) -> int:
         dp = {i: 0 for i in range(len(binary))}
