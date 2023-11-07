@@ -3,6 +3,7 @@
 
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
+        # (i, j) -> bool indicating whether we can match rest of pattern
         dp = {}
 
         def match(i, j):
@@ -11,7 +12,6 @@ class Solution:
             return 0 <= i < len(s) and 0 <= j < len(p) and \
                 (s[i] == p[j] or p[j] == '.')
 
-        # (i, j) -> bool indicating whether we can rest of pattern
         def dfs(i, j):
             '''
             i = pointer in string s
