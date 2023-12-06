@@ -6,7 +6,7 @@ from collections import defaultdict
 class Trie:
     def __init__(self):
         self.root = defaultdict(bool)   # default to False
-        self.term = '$'
+        self.term = '$'                 # terminator char
 
     def add(self, word):
         node = self.root
@@ -17,7 +17,7 @@ class Trie:
         node[self.term] = True
 
     def query_node(self, prefix):
-        # query the node for a prefix
+        # query the resulting node for a prefix
         node = self.root
         for ch in prefix:
             if not node[ch]:
@@ -26,13 +26,14 @@ class Trie:
             node = node[ch]
         return node
 
-    def is_sentinel(self, node):
+    def is_terminal(self, node):
+        # check if node is terminal
         return node[self.term] if node else False
 
     def query(self, word):
         # query a word
         node = self.find_node(word)
-        return self.is_sentinel(node)
+        return self.is_terminal(node)
 
 
 class StreamChecker:
@@ -49,14 +50,19 @@ class StreamChecker:
         self.stream.append(letter)
 
         for i in range(len(self.stream)-1, -1, -1):
+            # query current suffix
             suff = self.stream[i:][::-1]
             node = self.trie.query_node(suff)
 
             if not node:
                 # fell out of trie, further suffixes would fail too
+                # "shortcircuit" to False
                 return False
-            if self.trie.is_sentinel(node):
+            if self.trie.is_terminal(node):
+                # at least one suffix works
+                # "shortcircuit" to True
                 return True
+        # didn't find matching suffixes
         return False
 
 
