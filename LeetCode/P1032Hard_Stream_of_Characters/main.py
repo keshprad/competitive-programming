@@ -47,6 +47,10 @@ class StreamChecker:
         self.stream = []
 
     def query(self, letter: str) -> bool:
+        '''
+        Time complexity: Worst case: O(n^2) where n is stream length
+        But often will be significantly less than O(n^2)
+        '''
         self.stream.append(letter)
 
         for i in range(len(self.stream)-1, -1, -1):
