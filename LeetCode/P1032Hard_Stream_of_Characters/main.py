@@ -26,7 +26,7 @@ class Trie:
 
         add(self, word, 0)
 
-    def query_node(self, prefix, node=None):
+    def query_node(self, prefix):
         # query the resulting node for a prefix
         def query_node(node, prefix, i):
             if i == len(prefix):
@@ -39,7 +39,7 @@ class Trie:
             # traverse edge
             return query_node(node.edges[ch], prefix, i+1)
 
-        return query_node(node or self, prefix, 0)
+        return query_node(self, prefix, 0)
 
     def query(self, word):
         # query a word
@@ -59,7 +59,8 @@ class StreamChecker:
 
     def query(self, letter: str) -> bool:
         '''
-        Time complexity: O(n)
+        Time Complexity: O(n) 
+        where n is the length of stream
         '''
         self.stream.append(letter)
 
@@ -67,7 +68,7 @@ class StreamChecker:
         for i in range(len(self.stream)-1, -1, -1):
             # query character by character to prevent repeated work
             ch = self.stream[i]
-            node = node.query_node(ch, node)
+            node = node.query_node(ch)
 
             if not node:
                 # fell out of trie, further suffixes would fail too
@@ -79,6 +80,7 @@ class StreamChecker:
                 return True
         # didn't find matching suffixes
         return False
+
 
 # Your StreamChecker object will be instantiated and called as such:
 # obj = StreamChecker(words)
