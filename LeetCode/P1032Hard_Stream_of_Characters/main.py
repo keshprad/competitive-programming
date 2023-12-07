@@ -5,35 +5,47 @@ from collections import defaultdict
 
 class Trie:
     def __init__(self):
-        self.root = defaultdict(bool)   # default to False
-        self.term = '$'                 # terminator char
+        self.edges = {}
+        self.is_terminal = False
+
+    def __str__(self):
+        return str({k: str(self.edges[k]) for k in self.edges})
 
     def add(self, word):
-        node = self.root
-        for ch in word:
-            if not node[ch]:
-                node[ch] = defaultdict(bool)
-            node = node[ch]
-        node[self.term] = True
+        def add(node, word, i):
+            if i == len(word):
+                # reached terminal
+                node.is_terminal = True
+                return
+
+            ch = word[i]
+            if ch not in node.edges:
+                # create edge
+                node.edges[ch] = Trie()
+            # traverse edge
+            add(node.edges[ch], word, i+1)
+
+        add(self, word, 0)
 
     def query_node(self, prefix):
         # query the resulting node for a prefix
-        node = self.root
-        for ch in prefix:
-            if not node[ch]:
+        def query_node(node, prefix, i):
+            if i == len(prefix):
+                return node
+
+            ch = prefix[i]
+            if ch not in node.edges:
                 # fall out of trie
                 return None
-            node = node[ch]
-        return node
+            # traverse edge
+            return query_node(node.edges[ch], prefix, i+1)
 
-    def is_terminal(self, node):
-        # check if node is terminal
-        return node[self.term] if node else False
+        return query_node(self, prefix, 0)
 
     def query(self, word):
         # query a word
-        node = self.find_node(word)
-        return self.is_terminal(node)
+        node = self.query_node(word)
+        return node.is_terminal
 
 
 class StreamChecker:
@@ -48,21 +60,22 @@ class StreamChecker:
 
     def query(self, letter: str) -> bool:
         '''
-        Time complexity: Worst case: O(n^2) where n is stream length
-        But often will be significantly less than O(n^2)
+        Time Complexity: O(n) 
+        where n is the length of stream
         '''
         self.stream.append(letter)
 
+        node = self.trie
         for i in range(len(self.stream)-1, -1, -1):
-            # query current suffix
-            suff = self.stream[i:][::-1]
-            node = self.trie.query_node(suff)
+            # query character by character to prevent repeated work
+            ch = self.stream[i]
+            node = node.query_node(ch)
 
             if not node:
                 # fell out of trie, further suffixes would fail too
                 # "shortcircuit" to False
                 return False
-            if self.trie.is_terminal(node):
+            if node.is_terminal:
                 # at least one suffix works
                 # "shortcircuit" to True
                 return True
