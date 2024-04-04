@@ -1,4 +1,4 @@
-# Problem: https://leetcode.com/problems/parse-lisp-expression/description/
+# Problem: https://leetcode.com/problems/parse-lisp-expression/
 
 class Number:
     def __init__(self, val):
