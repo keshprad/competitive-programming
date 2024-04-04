@@ -10,7 +10,6 @@ class Expr;
 std::ostream &operator<<(std::ostream &os, const Expr *expr);
 typedef map<string, int> var_map;
 
-// write destructors
 class Expr {
 public:
   virtual int eval(var_map &map) = 0;
